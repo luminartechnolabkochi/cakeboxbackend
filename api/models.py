@@ -28,7 +28,7 @@ class Cake(models.Model):
     def __str__(self):
         return self.name
     
-class PlaceOrder(models.Model):
+class Order(models.Model):
     cake=models.ForeignKey(Cake,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     created_date=models.DateTimeField(auto_now_add=True)
@@ -45,8 +45,10 @@ class PlaceOrder(models.Model):
     expdate=curDate+datetime.timedelta(days=1)
     expected_deliverydate=models.DateTimeField(default=expdate)
     address=models.CharField(max_length=100,null=True)
+    matter=models.CharField(max_length=200,null=True)
 
-class AddtoCart(models.Model):
+
+class Cart(models.Model):
     cake=models.ForeignKey(Cake,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     order=(
@@ -56,7 +58,7 @@ class AddtoCart(models.Model):
     )
     status=models.CharField(max_length=100,choices=order,default="in-cart")
     quantity=models.PositiveIntegerField(default=1)
-
+    created_date=models.DateTimeField(auto_now_add=True)
 class Reviews(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     cake=models.ForeignKey(Cake,on_delete=models.CASCADE)
